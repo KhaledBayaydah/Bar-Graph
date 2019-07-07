@@ -1,0 +1,107 @@
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.FontMetrics;
+
+public class BarGraph {
+    private JFrame frame;
+
+    public BarGraph() {
+        frame = new JFrame("Bar Graph");
+        frame.setSize(600, 500);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setPreferredSize(frame.getSize());
+        frame.add(new DrawBars(frame.getSize()));
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    public static void main(String... argv) {
+        new BarGraph();
+    }
+
+    public static class DrawBars extends JPanel  implements MouseListener {
+        /*
+         * Declare Class Variables Here
+         */
+        int x = 0;// a variable to set the width of each bar and the spaces between them
+        int y =30;// a variable to multiply the data by a fixed number to make sure that some of it won't disappear when turned to integers
+        double[] phila = {y*2.85,y*6.02,y*4.74,y*3.94,y*5.21,y*3.34,y*3.06,y*4.11,y*8.35,y*3.08,y*9.03,y*6.38};
+        double[] seattle = {y*8.12,y*2.16,y*2.44,y*5.69,y*0.12,y*0.63,y*0.05,y*0.2,y*0.98,y*3.78,y*5.42,y*6.08};
+        
+
+        public DrawBars(Dimension dimension) {
+            setSize(dimension);
+            setPreferredSize(dimension);
+            addMouseListener(this);
+
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D)g;//g2 is the graphics object that we need to use
+            //to draw things to the screen
+            Dimension d = getSize();
+            //create a background
+            g2.setColor(Color.white);
+            g2.fillRect(0, 0, d.width, d.height);
+            /**/
+            
+            //The Phila bar
+            Color purple= new Color(102,0, 102); //instance variable purple
+            g2.setColor(purple);
+            //philly rain bar graphs
+            
+            // A for loop to go through all data drawing each one of them vertically as well as locating them
+            for(int i =0;i<phila.length;i++){
+            g2.fillRect(x,((d.height-100)-(int)phila[i]),20,(int)phila[i]);
+            x+=50;} 
+            //The Seattle bars
+            Color green = new Color(10,255, 102); //instance variable purple
+            g2.setColor(green);
+            x = 20;
+            //seattle Bar graphs
+            
+            // A for loop to go through all data drawing each one of them vertically as well as locating them
+            for(int i =0; i<seattle.length;i++){
+            g2.fillRect(x, ((d.height-100)-(int)seattle[i]), 20, (int)seattle[i]);
+            x+=50;}
+            
+            
+    
+
+            //display Text
+            g2.setColor(purple);
+            g2.setFont (new Font("TimesRoman", Font.PLAIN, 20));
+            g2.drawString("Philadelphia" ,  10,y);//text to display, x and y coordinates
+            g2.setColor(green);
+            g2.drawString("Seattle" ,  200,y);
+            g2.setColor(Color.blue);
+            g2.drawString("Rain Data", d.width/2, d.height-50);// an additional touch to the graph
+
+        }
+        public void mousePressed(MouseEvent e) {
+            
+        }
+
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+        }
+
+        public void mouseClicked(MouseEvent e) {
+        }
+    }
+}
